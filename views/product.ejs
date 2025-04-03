@@ -3,8 +3,10 @@
 
 <head>
 	<meta charset="utf-8" />
-	<title>Razorpay Web-Integration</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Fashion Store | Shop Premium Products</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 	<style>
 		/* Add basic styling */
 		nav {
@@ -27,8 +29,6 @@
 			background-color: #000;
 			color: white;
 			padding: 1rem;
-			position: fixed;
-			bottom: 0;
 			width: 100%;
 			text-align: center;
 		}
@@ -42,113 +42,211 @@
 		footer a:hover {
 			text-decoration: underline;
 		}
+		
+		.product-card {
+			border: 1px solid #eee;
+			padding: 20px;
+			margin: 15px;
+			border-radius: 8px;
+			transition: transform 0.3s;
+			background: white;
+			box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+		}
+		
+		.product-card:hover {
+			transform: translateY(-5px);
+		}
+		
+		.product-image {
+			width: 200px;
+			height: 200px;
+			object-fit: contain;
+		}
+		
+		.btn-pay {
+			background: #2300a3;
+			color: white;
+			border: none;
+			padding: 10px 20px;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+		
+		.btn-pay:hover {
+			background: #1a0080;
+		}
+		
+		.hero-section {
+			background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1441986300917-64674bd600d8');
+			background-size: cover;
+			color: white;
+			padding: 100px 0;
+			text-align: center;
+			margin-bottom: 40px;
+		}
 	</style>
 </head>
 
 <body>
-	<!-- Add Navigation Bar -->
-	<nav>
-		<a href="/">Home</a>
-		
-		<a href="https://merchant.razorpay.com/policy/QEfQk2x2gpeTju/contact_us">Contact</a>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<div class="container">
+			<a class="navbar-brand" href="/">Fashion Store</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav ms-auto">
+					<li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+					<li class="nav-item"><a class="nav-link" href="/products">Products</a></li>
+					<li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+					<li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
+				</ul>
+			</div>
+		</div>
 	</nav>
 
-	<hr/>
-	
-		<div style="display:inline-block">
-			<img src="https://cdn.pixabay.com/photo/2014/04/03/10/55/t-shirt-311732_960_720.png" alt="" width="100px" height="100px">
-			<p>Shirt</p>
-			<p><b>Amount:- Rs. 500</b></p>
-			<form class="pay-form">
-				<input type="hidden" name="name" value="Shirt">
-				<input type="hidden" name="amount" value="5">
-				<input type="hidden" name="description" value="Shirt Buying">
-				<input type="submit" value="Pay Now">
-			</form>
+	<div class="hero-section">
+		<div class="container">
+			<h1>Welcome to Fashion Store</h1>
+			<p class="lead">Discover our premium collection of fashion items</p>
 		</div>
+	</div>
 
-		<div style="display:inline-block">
-			<img src="https://cdn.pixabay.com/photo/2013/07/12/18/20/shoes-153310_960_720.png" alt="" width="100px" height="100px">
-			<p>Shoes</p>
-			<p><b>Amount:- Rs. 1500</b></p>
-			<form class="pay-form">
-				<input type="hidden" name="name" value="Shoes">
-				<input type="hidden" name="amount" value="1500">
-				<input type="hidden" name="description" value="Shoes Buying">
-				<input type="submit" value="Pay Now">
-			</form>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4">
+				<div class="product-card">
+					<img src="https://cdn.pixabay.com/photo/2014/04/03/10/55/t-shirt-311732_960_720.png" alt="Premium T-Shirt" class="product-image">
+					<h3>Premium T-Shirt</h3>
+					<p class="text-muted">Classic comfort meets style</p>
+					<p class="h4">₹500</p>
+					<form class="pay-form">
+						<input type="hidden" name="name" value="Premium T-Shirt">
+						<input type="hidden" name="amount" value="500">
+						<input type="hidden" name="description" value="Premium T-Shirt Purchase">
+						<button type="submit" class="btn-pay">Buy Now</button>
+					</form>
+				</div>
+			</div>
+			
+			<div class="col-md-4">
+				<div class="product-card">
+					<img src="https://cdn.pixabay.com/photo/2013/07/12/18/20/shoes-153310_960_720.png" alt="Designer Shoes" class="product-image">
+					<h3>Designer Shoes</h3>
+					<p class="text-muted">Premium comfort for your feet</p>
+					<p class="h4">₹1,500</p>
+					<form class="pay-form">
+						<input type="hidden" name="name" value="Designer Shoes">
+						<input type="hidden" name="amount" value="1500">
+						<input type="hidden" name="description" value="Designer Shoes Purchase">
+						<button type="submit" class="btn-pay">Buy Now</button>
+					</form>
+				</div>
+			</div>
+			
+			<div class="col-md-4">
+				<div class="product-card">
+					<img src="https://cdn.pixabay.com/photo/2016/12/06/09/31/blank-1886008_960_720.png" alt="Designer Watch" class="product-image">
+					<h3>Designer Watch</h3>
+					<p class="text-muted">Elegance on your wrist</p>
+					<p class="h4">₹2,500</p>
+					<form class="pay-form">
+						<input type="hidden" name="name" value="Designer Watch">
+						<input type="hidden" name="amount" value="2500">
+						<input type="hidden" name="description" value="Designer Watch Purchase">
+						<button type="submit" class="btn-pay">Buy Now</button>
+					</form>
+				</div>
+			</div>
 		</div>
-	
-	<!-- Add Footer -->
-	<footer>
-		<div>
-			© Copyright 2025 payxxshareen | 
-			<a href="https://merchant.razorpay.com/policy/QEfQk2x2gpeTju/privacy">Privacy Policy</a> | 
-			<a href="https://merchant.razorpay.com/policy/QEfQk2x2gpeTju/terms">Terms Of Use</a> | 
-		 
-			<a href="https://merchant.razorpay.com/policy/QEfQk2x2gpeTju/shipping">Shipping and Delivery</a> | 
-			<a href="https://merchant.razorpay.com/policy/QEfQk2x2gpeTju/refund">Refund & Cancellation Policy</a> |
-			<a href="https://merchant.razorpay.com/policy/QEfQk2x2gpeTju/contact_us">Contact Us</a>
+	</div>
+
+	<footer class="bg-dark text-white mt-5">
+		<div class="container py-4">
+			<div class="row">
+				<div class="col-md-4">
+					<h5>About Us</h5>
+					<p>Fashion Store is your premium destination for the latest in fashion and accessories.</p>
+				</div>
+				<div class="col-md-4">
+					<h5>Quick Links</h5>
+					<ul class="list-unstyled">
+						<li><a href="/privacy">Privacy Policy</a></li>
+						<li><a href="/terms">Terms of Use</a></li>
+						<li><a href="/shipping">Shipping Info</a></li>
+						<li><a href="/refund">Refund Policy</a></li>
+					</ul>
+				</div>
+				<div class="col-md-4">
+					<h5>Contact Us</h5>
+					<p>Email: support@fashionstore.com<br>
+					Phone: +91 1234567890</p>
+				</div>
+			</div>
+			<hr>
+			<div class="text-center">
+				<p>&copy; 2025 Fashion Store. All rights reserved.</p>
+			</div>
 		</div>
 	</footer>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+	<script>
+
+	$(document).ready(function(){
+		$('.pay-form').submit(function(e){
+			e.preventDefault();
+
+			var formData = $(this).serialize();
+
+			$.ajax({
+				url:"/createOrder",
+				type:"POST",
+				data: formData,
+				success:function(res){
+					if(res.success){
+						var options = {
+							"key": ""+res.key_id+"",
+							"amount": ""+res.amount+"",
+							"currency": "INR",
+							"name": ""+res.product_name+"",
+							"description": ""+res.description+"",
+							"image": "https://dummyimage.com/600x400/000/fff",
+							"order_id": ""+res.order_id+"",
+							"handler": function (response){
+								alert("Payment Succeeded");
+								// window.open("/","_self")
+							},
+							"prefill": {
+								"contact":""+res.contact+"",
+								"name": ""+res.name+"",
+								"email": ""+res.email+""
+							},
+							"notes" : {
+								"description":""+res.description+""
+							},
+							"theme": {
+								"color": "#2300a3"
+							}
+						};
+						var razorpayObject = new Razorpay(options);
+						razorpayObject.on('payment.failed', function (response){
+								alert("Payment Failed");
+						});
+						razorpayObject.open();
+					}
+					else{
+						alert(res.msg);
+					}
+				}
+			})
+
+		});
+	});
+
+	</script>
 
 </body>
 
 </html>
-
-<!--Inside index.html -->
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-<script>
-
-$(document).ready(function(){
-	$('.pay-form').submit(function(e){
-		e.preventDefault();
-
-		var formData = $(this).serialize();
-
-		$.ajax({
-			url:"/createOrder",
-			type:"POST",
-			data: formData,
-			success:function(res){
-				if(res.success){
-					var options = {
-						"key": ""+res.key_id+"",
-						"amount": ""+res.amount+"",
-						"currency": "INR",
-						"name": ""+res.product_name+"",
-						"description": ""+res.description+"",
-						"image": "https://dummyimage.com/600x400/000/fff",
-						"order_id": ""+res.order_id+"",
-						"handler": function (response){
-							alert("Payment Succeeded");
-							// window.open("/","_self")
-						},
-						"prefill": {
-							"contact":""+res.contact+"",
-							"name": ""+res.name+"",
-							"email": ""+res.email+""
-						},
-						"notes" : {
-							"description":""+res.description+""
-						},
-						"theme": {
-							"color": "#2300a3"
-						}
-					};
-					var razorpayObject = new Razorpay(options);
-					razorpayObject.on('payment.failed', function (response){
-							alert("Payment Failed");
-					});
-					razorpayObject.open();
-				}
-				else{
-					alert(res.msg);
-				}
-			}
-		})
-
-	});
-});
-
-</script>

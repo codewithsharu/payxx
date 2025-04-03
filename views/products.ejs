@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            padding: 20px 0;
+        }
+
+        .product-card {
+            border: 1px solid #eee;
+            padding: 15px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ff4444;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            margin: 10px 0;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .product-description {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            height: 40px;
+            overflow: hidden;
+        }
+
+        .product-price {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #2300a3;
+            margin: 10px 0;
+        }
+
+        .btn-pay {
+            background: #2300a3;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .btn-pay:hover {
+            background: #1a0080;
+        }
+
+        .filters-card {
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .category-filter {
+            margin-bottom: 20px;
+        }
+
+        .price-filter {
+            margin-bottom: 20px;
+        }
+
+        .sort-select {
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        /* Available tag styling */
+        .stock-status {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+
+        .in-stock {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .low-stock {
+            background-color: #fff3e0;
+            color: #ef6c00;
+        }
+
+        .out-of-stock {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/"><i class="fas fa-shopping-bag me-2"></i>Fashion Store</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/"><i class="fas fa-home me-1"></i>Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/products"><i class="fas fa-tshirt me-1"></i>Products</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/about"><i class="fas fa-info-circle me-1"></i>About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://merchant.razorpay.com/policy/QEfQk2x2gpeTju/contact_us"><i class="fas fa-envelope me-1"></i>Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/" class="text-decoration-none">Home</a></li>
+                <li class="breadcrumb-item active">Products</li>
+                <% if(category !== 'all') { %>
+                    <li class="breadcrumb-item active"><%= category %></li>
+                <% } %>
+            </ol>
+        </nav>
+
+        <div class="row">
+            <!-- Filters Sidebar -->
+            <div class="col-md-3">
+                <div class="card filters-card">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-filter me-2"></i>Filters</h5>
+                        <hr>
+                        
+                        <div class="category-filter">
+                            <h6><i class="fas fa-tags me-2"></i>Categories</h6>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="men">
+                                <label class="form-check-label" for="men">Men's Wear</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="women">
+                                <label class="form-check-label" for="women">Women's Wear</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="accessories">
+                                <label class="form-check-label" for="accessories">Accessories</label>
+                            </div>
+                        </div>
+                        
+                        <div class="price-filter">
+                            <h6><i class="fas fa-rupee-sign me-2"></i>Price Range</h6>
+                            <input type="range" class="form-range" min="0" max="5000" step="500">
+                            <div class="d-flex justify-content-between">
+                                <span>₹0</span>
+                                <span>₹5000</span>
+                            </div>
+                        </div>
+
+                        <div class="availability-filter">
+                            <h6><i class="fas fa-box-open me-2"></i>Availability</h6>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="inStock" checked>
+                                <label class="form-check-label" for="inStock">In Stock</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="col-md-9">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2><i class="fas fa-shopping-basket me-2"></i>Our Products</h2>
+                    <select class="form-select sort-select" style="width: auto;">
+                        <option>Sort by: Featured</option>
+                        <option>Price: Low to High</option>
+                        <option>Price: High to Low</option>
+                        <option>Newest First</option>
+                    </select>
+                </div>
+
+                <div class="product-grid">
+                    <% if (typeof products !== 'undefined' && products.length > 0) { %>
+                        <% products.forEach(function(product) { %>
+                            <div class="product-card">
+                                <% if (product.isNew) { %>
+                                    <span class="product-badge">New</span>
+                                <% } %>
+                                <img src="<%= product.image %>" alt="<%= product.name %>" class="product-image">
+                                <h3 class="product-title"><%= product.name %></h3>
+                                
+                                <!-- Availability Status -->
+                                <% if (product.stock > 10) { %>
+                                    <div class="stock-status in-stock">
+                                        <i class="fas fa-check-circle me-1"></i>In Stock
+                                    </div>
+                                <% } else if (product.stock > 0) { %>
+                                    <div class="stock-status low-stock">
+                                        <i class="fas fa-exclamation-circle me-1"></i>Low Stock
+                                    </div>
+                                <% } else { %>
+                                    <div class="stock-status out-of-stock">
+                                        <i class="fas fa-times-circle me-1"></i>Out of Stock
+                                    </div>
+                                <% } %>
+                                
+                                <p class="product-description"><%= product.description %></p>
+                                <p class="product-price">₹<%= product.price.toLocaleString('en-IN') %></p>
+                                
+                                <form class="pay-form">
+                                    <input type="hidden" name="name" value="<%= product.name %>">
+                                    <input type="hidden" name="amount" value="<%= product.price %>">
+                                    <input type="hidden" name="description" value="<%= product.description %>">
+                                    <button type="submit" class="btn-pay" <%= product.stock === 0 ? 'disabled' : '' %>>
+                                        <i class="fas fa-shopping-cart me-2"></i>Buy Now
+                                    </button>
+                                </form>
+                            </div>
+                        <% }); %>
+                    <% } else { %>
+                        <div class="col-12 text-center">
+                            <p class="text-muted"><i class="fas fa-box-open me-2"></i>No products found.</p>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white mt-5">
+        <div class="container py-4">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5><i class="fas fa-info-circle me-2"></i>About Us</h5>
+                    <p>Fashion Store is your premium destination for the latest in fashion and accessories.</p>
+                </div>
+                <div class="col-md-4">
+                    <h5><i class="fas fa-link me-2"></i>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="/privacy" class="text-white"><i class="fas fa-lock me-2"></i>Privacy Policy</a></li>
+                        <li><a href="/terms" class="text-white"><i class="fas fa-file-contract me-2"></i>Terms of Use</a></li>
+                        <li><a href="/shipping" class="text-white"><i class="fas fa-shipping-fast me-2"></i>Shipping Info</a></li>
+                        <li><a href="/refund" class="text-white"><i class="fas fa-undo me-2"></i>Refund Policy</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5><i class="fas fa-address-card me-2"></i>Contact Us</h5>
+                    <p>
+                        <i class="fas fa-envelope me-2"></i>Email: support@fashionstore.com<br>
+                        <i class="fas fa-phone me-2"></i>Phone: +91 7816072525<br>
+                        <a href="https://merchant.razorpay.com/policy/QEfQk2x2gpeTju/contact_us" class="text-white"><i class="fas fa-external-link-alt me-2"></i>Contact Page</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.pay-form').submit(function(e){
+                e.preventDefault();
+                var formData = $(this).serialize();
+                
+                $.ajax({
+                    url:"/payment/createOrder",
+                    type:"POST",
+                    data: formData,
+                    success:function(res){
+                        if(res.success){
+                            var options = {
+                                "key": ""+res.key_id+"",
+                                "amount": ""+res.amount+"",
+                                "currency": "INR",
+                                "name": ""+res.product_name+"",
+                                "description": ""+res.description+"",
+                                "image": "https://dummyimage.com/600x400/000/fff",
+                                "order_id": ""+res.order_id+"",
+                                "handler": function (response){
+                                    alert("Payment Succeeded");
+                                    window.location.href = "/payment/success";
+                                },
+                                "prefill": {
+                                    "contact":""+res.contact+"",
+                                    "name": ""+res.name+"",
+                                    "email": ""+res.email+""
+                                },
+                                "theme": {
+                                    "color": "#2300a3"
+                                }
+                            };
+                            var razorpayObject = new Razorpay(options);
+                            razorpayObject.open();
+                        } else {
+                            alert(res.msg);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html> 
